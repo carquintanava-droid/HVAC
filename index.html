@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Citas - HVAC CONTROLS S.A.C.</title>
+    <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 16px;
+      color: #1b2733;
+    }
+
+    .contenedor {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      background-color: #16324F;
+      color: white;
+      padding: 18px 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.3rem;
+    }
+
+    header p {
+      margin: 4px 0 0;
+      font-size: 0.85rem;
+      color: #b8cbda;
+    }
+
+    .caja {
+      background-color: white;
+      border: 1px solid #cccccc;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+
+    .caja h2 {
+      margin-top: 0;
+      font-size: 1.05rem;
+      color: #16324F;
+      border-bottom: 2px solid #eef3f6;
+      padding-bottom: 8px;
+    }
+
+    .fila {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    .fila .caja {
+      flex: 1 1 320px;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #3a5a78;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 9px;
+      margin-top: 4px;
+      border: 1px solid #cccccc;
+      border-radius: 5px;
+      font-size: 15px;
+    }
+
+    input:focus, select:focus {
+      outline: 2px solid #2CB1A3;
+      border-color: #2CB1A3;
+    }
+
+    .campo-error {
+      border-color: #d9364f !important;
+      outline: 2px solid #d9364f !important;
+    }
+
+    .mensaje-error {
+      color: #d9364f;
+      font-size: 13px;
+      margin-top: 6px;
+      min-height: 18px;
+    }
+
+    .botones {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    button {
+      padding: 10px 16px;
+      background-color: #2CB1A3;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      flex: 1 1 auto;
+    }
+
+    button:hover {
+      background-color: #24968a;
+    }
+
+    button.secundario {
+      background-color: #3a5a78;
+    }
+    button.secundario:hover {
+      background-color: #2e4761;
+    }
+
+    button.terciario {
+      background-color: #6b7d8c;
+    }
+    button.terciario:hover {
+      background-color: #576a78;
+    }
+
+    pre {
+      background-color: #f5f5f5;
+      color: #1b2733;
+      border: 1px solid #d9d9d9;
+      padding: 12px;
+      border-radius: 5px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-size: 13px;
+      margin: 0;
+    }
+
+    /* Formato para las tarjetas de citas */
+    .citas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 14px;
+    }
+
+    .cita-card {
+      border: 1px solid #dfe4e8;
+      border-radius: 8px;
+      padding: 14px;
+      background-color: #fbfcfd;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .cita-card__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .cita-card__numero {
+      font-weight: bold;
+      color: #16324F;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-weight: bold;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+
+    .badge-prioridad-1 { background-color: #d9364f; }
+    .badge-prioridad-2 { background-color: #e08a2b; }
+    .badge-prioridad-3 { background-color: #3a5a78; }
+    .badge-prioridad-4 { background-color: #6b7d8c; }
+
+    .estado-pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 3px 8px;
+      border-radius: 12px;
+      color: white;
+      width: fit-content;
+    }
+
+    .estado-Pendiente { background-color: #b0b8bf; }
+    .estado-Asignada { background-color: #2CB1A3; }
+    .estado-En.espera { background-color: #e08a2b; }
+    .estado-Finalizada { background-color: #3a5a78; }
+
+    .cita-card__campo {
+      font-size: 13.5px;
+    }
+
+    .cita-card__campo strong {
+      color: #3a5a78;
+    }
+
+    .cita-card__costos {
+      margin-top: 6px;
+      padding-top: 8px;
+      border-top: 1px dashed #d9d9d9;
+      font-size: 13px;
+    }
+
+    .cita-card__costos .linea {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .cita-card__costos .final {
+      font-weight: bold;
+      color: #16324F;
+      margin-top: 4px;
+    }
+
+    .cita-card__acciones {
+      margin-top: 8px;
+    }
+
+    .cita-card__acciones button {
+      width: 100%;
+      font-size: 13px;
+      padding: 7px;
+    }
+
+    .cita-card__acciones button:disabled {
+      background-color: #c9d0d5;
+      cursor: not-allowed;
+    }
+
+    .vacio {
+      color: #6b7d8c;
+      font-size: 14px;
+      font-style: italic;
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.1rem;
+      }
+
+      button {
+        flex: 1 1 100%;
+      }
+    }
+    </style>
+</head>
+<body>
+
+<div class="contenedor">
+
+  <header>
+    <h1>SISTEMA DE CITAS - HVAC CONTROLS S.A.C.</h1>
+    <p>RUC: 20612825603 &nbsp;|&nbsp; Servicio al cliente y gestión de programación de servicios técnicos</p>
+  </header>
+
+  <div class="caja">
+    <h2>Registrar nueva cita</h2>
+
+    <label for="cliente">Nombre del cliente</label>
+    <input type="text" id="cliente">
+
+    <label for="servicio">Tipo de servicio</label>
+    <select id="servicio">
+      <option value="Emergencia">Emergencia</option>
+      <option value="Reparacion">Reparacion</option>
+      <option value="Instalacion">Instalacion</option>
+      <option value="Mantenimiento">Mantenimiento</option>
+    </select>
+
+    <label for="horas">Horas estimadas del servicio</label>
+    <input type="number" id="horas" min="1" step="1">
+
+    <label for="fecha">Fecha</label>
+    <input type="date" id="fecha">
+    <div class="mensaje-error" id="errorFecha"></div>
+
+    <div class="botones">
+      <button onclick="registrarCita()">Agendar cita</button>
+      <button class="secundario" onclick="procesarCitas()">Procesar citas</button>
+      <button class="terciario" onclick="generarReporte()">Ver reporte</button>
+    </div>
+  </div>
+
+  <div class="fila">
+    <div class="caja">
+      <h2>Técnicos</h2>
+      <pre id="tecnicos"></pre>
+    </div>
+
+    <div class="caja" style="flex: 2 1 480px;">
+      <h2>Citas registradas</h2>
+      <div class="citas-grid" id="citasGrid"></div>
+    </div>
+  </div>
+
+  <div class="caja">
+    <h2>Reporte del día</h2>
+    <pre id="reporteDia"></pre>
+  </div>
+
+</div>
+
+<script src="funcionalidades.js"></script>
+</body>
+</html>
