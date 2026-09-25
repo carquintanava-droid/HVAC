@@ -1,327 +1,188 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sistema de Citas - HVAC CONTROLS S.A.C.</title>
-    <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      margin: 0;
-      padding: 16px;
-      color: #1b2733;
-    }
-
-    .contenedor {
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    header {
-      background-color: #16324F;
-      color: white;
-      padding: 18px 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 1.3rem;
-    }
-
-    header p {
-      margin: 4px 0 0;
-      font-size: 0.85rem;
-      color: #b8cbda;
-    }
-
-    .caja {
-      background-color: white;
-      border: 1px solid #cccccc;
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 18px;
-    }
-
-    .caja h2 {
-      margin-top: 0;
-      font-size: 1.05rem;
-      color: #16324F;
-      border-bottom: 2px solid #eef3f6;
-      padding-bottom: 8px;
-    }
-
-    .fila {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 18px;
-    }
-
-    .fila .caja {
-      flex: 1 1 320px;
-    }
-
-    label {
-      display: block;
-      margin-top: 12px;
-      font-size: 14px;
-      font-weight: bold;
-      color: #3a5a78;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 9px;
-      margin-top: 4px;
-      border: 1px solid #cccccc;
-      border-radius: 5px;
-      font-size: 15px;
-    }
-
-    input:focus, select:focus {
-      outline: 2px solid #2CB1A3;
-      border-color: #2CB1A3;
-    }
-
-    .campo-error {
-      border-color: #d9364f !important;
-      outline: 2px solid #d9364f !important;
-    }
-
-    .mensaje-error {
-      color: #d9364f;
-      font-size: 13px;
-      margin-top: 6px;
-      min-height: 18px;
-    }
-
-    .botones {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 16px;
-    }
-
-    button {
-      padding: 10px 16px;
-      background-color: #2CB1A3;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-      flex: 1 1 auto;
-    }
-
-    button:hover {
-      background-color: #24968a;
-    }
-
-    button.secundario {
-      background-color: #3a5a78;
-    }
-    button.secundario:hover {
-      background-color: #2e4761;
-    }
-
-    button.terciario {
-      background-color: #6b7d8c;
-    }
-    button.terciario:hover {
-      background-color: #576a78;
-    }
-
-    pre {
-      background-color: #f5f5f5;
-      color: #1b2733;
-      border: 1px solid #d9d9d9;
-      padding: 12px;
-      border-radius: 5px;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      font-size: 13px;
-      margin: 0;
-    }
-
-    /* Formato para las tarjetas de citas */
-    .citas-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-      gap: 14px;
-    }
-
-    .cita-card {
-      border: 1px solid #dfe4e8;
-      border-radius: 8px;
-      padding: 14px;
-      background-color: #fbfcfd;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .cita-card__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 4px;
-    }
-
-    .cita-card__numero {
-      font-weight: bold;
-      color: #16324F;
-    }
-
-    .badge {
-      font-size: 11px;
-      font-weight: bold;
-      color: white;
-      padding: 3px 8px;
-      border-radius: 12px;
-      white-space: nowrap;
-    }
-
-    .badge-prioridad-1 { background-color: #d9364f; }
-    .badge-prioridad-2 { background-color: #e08a2b; }
-    .badge-prioridad-3 { background-color: #3a5a78; }
-    .badge-prioridad-4 { background-color: #6b7d8c; }
-
-    .estado-pill {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: bold;
-      padding: 3px 8px;
-      border-radius: 12px;
-      color: white;
-      width: fit-content;
-    }
-
-    .estado-Pendiente { background-color: #b0b8bf; }
-    .estado-Asignada { background-color: #2CB1A3; }
-    .estado-En.espera { background-color: #e08a2b; }
-    .estado-Finalizada { background-color: #3a5a78; }
-
-    .cita-card__campo {
-      font-size: 13.5px;
-    }
-
-    .cita-card__campo strong {
-      color: #3a5a78;
-    }
-
-    .cita-card__costos {
-      margin-top: 6px;
-      padding-top: 8px;
-      border-top: 1px dashed #d9d9d9;
-      font-size: 13px;
-    }
-
-    .cita-card__costos .linea {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .cita-card__costos .final {
-      font-weight: bold;
-      color: #16324F;
-      margin-top: 4px;
-    }
-
-    .cita-card__acciones {
-      margin-top: 8px;
-    }
-
-    .cita-card__acciones button {
-      width: 100%;
-      font-size: 13px;
-      padding: 7px;
-    }
-
-    .cita-card__acciones button:disabled {
-      background-color: #c9d0d5;
-      cursor: not-allowed;
-    }
-
-    .vacio {
-      color: #6b7d8c;
-      font-size: 14px;
-      font-style: italic;
-    }
-
-    @media (max-width: 480px) {
-      header h1 {
-        font-size: 1.1rem;
-      }
-
-      button {
-        flex: 1 1 100%;
-      }
-    }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ElectroClima: ingeniería electrónica, electricidad y HVAC para hogares, empresas e industria.">
+  <title>ElectroClima | Ingeniería · Electricidad · HVAC</title>
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-
-<div class="contenedor">
-
-  <header>
-    <h1>SISTEMA DE CITAS - HVAC CONTROLS S.A.C.</h1>
-    <p>RUC: 20612825603 &nbsp;|&nbsp; Servicio al cliente y gestión de programación de servicios técnicos</p>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand-lockup" href="#inicio" aria-label="ElectroClima inicio">
+        <img class="brand-icon" src="assets/images/brand-icon.png" alt="ElectroClima icono">
+        <span class="brand-text">
+          <strong class="brand-wordmark">ElectroClima</strong>
+          <small class="brand-sub">INGENIERÍA · ELÉCTRICA · HVAC</small>
+        </span>
+      </a>
+      <button id="menuToggle" class="menu-toggle" aria-label="Abrir menú">☰</button>
+      <nav class="main-nav" id="mainNav">
+        <a href="#inicio">Inicio</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#proyectos">Proyectos</a>
+        <a href="#proceso">Nosotros</a>
+        <a href="#contacto">Contacto</a>
+        <a class="btn btn-whatsapp nav-cta" href="reservar.html">Cotiza por WhatsApp</a>
+      </nav>
+    </div>
   </header>
 
-  <div class="caja">
-    <h2>Registrar nueva cita</h2>
+  <main>
+    <section class="hero" id="inicio">
+      <img class="hero-bg" src="assets/images/hero.png" alt="Instalaciones HVAC industriales ElectroClima">
+      <div class="hero-overlay"></div>
+      <div class="container hero-layout">
+        <div class="hero-copy">
+          <div class="eyebrow"><span></span> SOLUCIONES <b>INTEGRALES</b> EN</div>
+          <h1>INGENIERÍA ELECTRÓNICA,<br>ELECTRICIDAD Y <em>HVAC</em></h1>
+          <p>Evaluamos, diseñamos, instalamos y mantenemos sistemas con enfoque en seguridad, rendimiento y continuidad operativa.</p>
+          <div class="hero-actions">
+            <a class="btn btn-whatsapp" href="reservar.html">Cotiza tu Proyecto por WhatsApp <strong>→</strong></a>
+            <a class="btn btn-ghost" href="#servicios">Conoce nuestros servicios <strong>→</strong></a>
+          </div>
+        </div>
+        <div class="hero-benefits">
+          <div><span>◈</span><b>Eficiencia<br>Energética</b></div>
+          <div><span>▣</span><b>Tecnología<br>de Vanguardia</b></div>
+          <div><span>◆</span><b>Soluciones<br>a Medida</b></div>
+        </div>
+      </div>
+    </section>
 
-    <label for="cliente">Nombre del cliente</label>
-    <input type="text" id="cliente">
+    <section class="trust-strip">
+      <div class="container trust-grid">
+        <div class="trust-item"><span class="trust-icon">▦</span><div><strong>+10</strong><small>Años de experiencia*</small></div></div>
+        <div class="trust-item"><span class="trust-icon">▥</span><div><strong>Proyectos</strong><small>Residenciales e Industriales</small></div></div>
+        <div class="trust-item"><span class="trust-icon">♙</span><div><strong>Ingenieros</strong><small>Especializados</small></div></div>
+        <div class="trust-badges"><span>ISO 9001</span><span>OSHA</span><span>NFPA</span><span>Personal Certificado</span></div>
+      </div>
+    </section>
 
-    <label for="servicio">Tipo de servicio</label>
-    <select id="servicio">
-      <option value="Emergencia">Emergencia</option>
-      <option value="Reparacion">Reparacion</option>
-      <option value="Instalacion">Instalacion</option>
-      <option value="Mantenimiento">Mantenimiento</option>
-    </select>
+    <section class="services section" id="servicios">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <div class="section-label"><i></i>NUESTROS SERVICIOS</div>
+            <h2>ESPECIALISTAS EN<br>SOLUCIONES TÉCNICAS</h2>
+          </div>
+          <p>Contamos con un equipo técnico especializado en cada área, brindando soluciones eficientes, seguras y adaptadas a las necesidades de cada cliente.</p>
+        </div>
 
-    <label for="horas">Horas estimadas del servicio</label>
-    <input type="number" id="horas" min="1" step="1">
+        <div class="service-grid">
+          <article class="service-card">
+            <div class="service-photo photo-electronics"><img src="assets/images/electronics.jpg" alt="Ingeniería electrónica y automatización"></div>
+            <div class="service-card-body">
+              <span class="service-icon orange">⌘</span>
+              <h3>SERVICIOS ELECTRÓNICOS</h3>
+              <ul><li>Automatización y control industrial</li><li>Diagnóstico y reparación electrónica</li><li>Tableros de control y monitoreo</li></ul>
+              <a href="reservar.html?servicio=electronico">Solicitar evaluación <b>→</b></a>
+            </div>
+          </article>
 
-    <label for="fecha">Fecha</label>
-    <input type="date" id="fecha">
-    <div class="mensaje-error" id="errorFecha"></div>
+          <article class="service-card">
+            <div class="service-photo photo-electrical"><img src="assets/images/electrical.jpg" alt="Instalaciones eléctricas industriales"></div>
+            <div class="service-card-body">
+              <span class="service-icon orange">ϟ</span>
+              <h3>INSTALACIONES ELÉCTRICAS</h3>
+              <ul><li>Cableado y tableros eléctricos</li><li>Subestaciones y distribución</li><li>Proyectos de baja y media tensión</li></ul>
+              <a href="reservar.html?servicio=electrico">Solicitar evaluación <b>→</b></a>
+            </div>
+          </article>
 
-    <div class="botones">
-      <button onclick="registrarCita()">Agendar cita</button>
-      <button class="secundario" onclick="procesarCitas()">Procesar citas</button>
-      <button class="terciario" onclick="generarReporte()">Ver reporte</button>
+          <article class="service-card">
+            <div class="service-photo photo-hvac"><img src="assets/images/hvac-maintenance.jpg" alt="HVAC y ventilación"></div>
+            <div class="service-card-body">
+              <span class="service-icon blue">❄</span>
+              <h3>HVAC Y VENTILACIÓN</h3>
+              <ul><li>Instalación y mantenimiento de aire acondicionado</li><li>Ductos de ventilación</li><li>Sistemas de ventilación comercial e industrial</li></ul>
+              <a href="reservar.html?servicio=hvac">Solicitar evaluación <b>→</b></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="projects" id="proyectos">
+      <div class="container projects-grid">
+        <div class="projects-copy">
+          <div class="section-label light"><i></i>PROYECTOS REALES</div>
+          <h2>ANTES Y <em>DESPUÉS</em></h2>
+          <p>Desliza el control horizontal para comparar directamente el estado inicial con el resultado final.</p>
+          <a href="reservar.html" class="btn btn-outline">Cotizar un proyecto <strong>→</strong></a>
+        </div>
+
+        <div class="compare-card" id="compareCard" style="--pos:50%">
+          <img class="compare-img compare-before" src="assets/images/antes.png" alt="Antes del proyecto">
+          <div class="compare-after-wrap"><img class="compare-img compare-after" src="assets/images/despues.png" alt="Después del proyecto"></div>
+          <div class="compare-tag before-tag">ANTES</div>
+          <div class="compare-tag after-tag">DESPUÉS</div>
+          <div class="compare-line" aria-hidden="true"><span>↔</span></div>
+          <input id="compareRange" class="compare-range" type="range" min="0" max="100" value="50" aria-label="Comparar antes y después">
+        </div>
+
+        <aside class="project-benefits">
+          <div class="shield"></div>
+          <h3>Instalaciones más seguras</h3>
+          <ul><li>Mayor eficiencia energética</li><li>Cumplimiento de normativas</li><li>Mayor vida útil de tus equipos</li></ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="process-strip" id="proceso">
+      <div class="container process-layout">
+        <div class="process-intro"><div class="section-label"><i></i>NUESTRO PROCESO</div><h2>TRABAJO EN 3 PASOS</h2><p>Un proceso simple, claro y sin complicaciones.</p></div>
+        <article class="process-step"><b>1</b><span>⌕</span><div><h3>Diagnóstico / Evaluación técnica</h3><p>Analizamos tus necesidades y el estado actual.</p></div></article>
+        <article class="process-step"><b>2</b><span>▤</span><div><h3>Propuesta y Presupuesto</h3><p>Una solución a medida con alcance transparente.</p></div></article>
+        <article class="process-step"><b>3</b><span>⚙</span><div><h3>Ejecución y Garantía</h3><p>Realizamos el trabajo y verificamos el resultado.</p></div></article>
+      </div>
+    </section>
+
+    <section class="contact-zone" id="contacto">
+      <div class="container contact-grid">
+        <div class="contact-copy">
+          <h2>¿NECESITAS UN<br><em>PROYECTO A MEDIDA?</em></h2>
+          <p>Escríbenos por WhatsApp y recibe una atención rápida y personalizada.</p>
+          <div class="contact-points"><span>Asesoría técnica</span><span>Respuesta rápida</span><span>Sin compromiso</span></div>
+        </div>
+
+        <form class="quick-form" id="quickForm">
+          <h3>Solicita tu cotización</h3>
+          <input type="text" name="nombre" placeholder="Nombre completo *" required>
+          <select name="servicio" required>
+            <option value="">Tipo de servicio *</option>
+            <option value="electrico">Instalaciones eléctricas</option>
+            <option value="electronico">Ingeniería electrónica</option>
+            <option value="hvac">Climatización HVAC</option>
+            <option value="ventilacion">Ventilación y extracción</option>
+          </select>
+          <textarea name="detalle" rows="4" placeholder="Descripción breve del trabajo *" required></textarea>
+          <button class="btn btn-whatsapp full" type="submit">Enviar por WhatsApp</button>
+        </form>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-main">
+      <a class="brand-lockup footer-brand" href="#inicio">
+        <img class="brand-icon" src="assets/images/brand-icon.png" alt="ElectroClima icono">
+        <span class="brand-text">
+          <strong class="brand-wordmark">ElectroClima</strong>
+          <small class="brand-sub">INGENIERÍA · ELÉCTRICA · HVAC</small>
+        </span>
+      </a>
+      <div class="footer-info"><span>☎ +51 977 193 893</span><span>✉ info@electroclima.com</span><span>⌖ Lima, Perú</span></div>
     </div>
-  </div>
+    <div class="container footer-bottom"><span>© 2026 ElectroClima. Todos los derechos reservados.</span><a href="admin.html">Panel admin demo</a></div>
+  </footer>
 
-  <div class="fila">
-    <div class="caja">
-      <h2>Técnicos</h2>
-      <pre id="tecnicos"></pre>
-    </div>
-
-    <div class="caja" style="flex: 2 1 480px;">
-      <h2>Citas registradas</h2>
-      <div class="citas-grid" id="citasGrid"></div>
-    </div>
-  </div>
-
-  <div class="caja">
-    <h2>Reporte del día</h2>
-    <pre id="reporteDia"></pre>
-  </div>
-
-</div>
-
-<script src="funcionalidades.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

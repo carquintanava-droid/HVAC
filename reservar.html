@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Solicitar evaluación | ElectroClima</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="booking-body">
+  <header class="sub-header">
+    <div class="container nav-wrap">
+      <a class="brand-lockup" href="index.html"><img class="brand-icon" src="assets/images/brand-icon.png" alt="ElectroClima icono"><span class="brand-text"><strong class="brand-wordmark">ElectroClima</strong><small class="brand-sub">INGENIERÍA · ELÉCTRICA · HVAC</small></span></a>
+      <a href="index.html" class="back-link">← Volver al sitio</a>
+    </div>
+  </header>
+
+  <main class="booking-main">
+    <div class="booking-intro">
+      <div class="section-kicker">SOLICITUD DE SERVICIO</div>
+      <h1>Completa los pasos para que podamos entender tu proyecto y coordinar una evaluación.</h1>
+    </div>
+
+    <section class="wizard-card">
+      <div class="progress-wrap">
+        <div class="progress-top">
+          <b id="stepLabel">PASO 1 DE 5</b>
+          <span id="stepPercent">20%</span>
+        </div>
+        <div class="progress-bar"><span id="stepBar"></span></div>
+        <div class="step-dots" id="stepDots"><span class="active">1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+      </div>
+
+      <form id="bookingForm" novalidate>
+        <section class="wizard-step active" data-step="1">
+          <div class="step-head"><b>01</b><div><h2>¿Qué tipo de servicio necesitas?</h2><p>Selecciona el área que mejor describe tu consulta.</p></div></div>
+          <div class="choice-grid">
+            <label class="choice"><input type="radio" name="service" value="Instalaciones eléctricas"><b>Eléctrico</b><small>Instalación, tableros, potencia</small></label>
+            <label class="choice"><input type="radio" name="service" value="Ingeniería electrónica"><b>Electrónico</b><small>Automatización, control, reparación</small></label>
+            <label class="choice"><input type="radio" name="service" value="Climatización HVAC"><b>HVAC</b><small>Aire acondicionado, mantenimiento</small></label>
+            <label class="choice"><input type="radio" name="service" value="Ventilación y extracción"><b>Ventilación</b><small>Ductos, extracción, renovación de aire</small></label>
+          </div>
+        </section>
+
+        <section class="wizard-step" data-step="2">
+          <div class="step-head"><b>02</b><div><h2>¿Qué trabajo tienes en mente?</h2><p>Cuéntanos brevemente el alcance de la solicitud.</p></div></div>
+          <label class="field"><span>Descripción del proyecto</span><textarea name="details" rows="5" minlength="8" required placeholder="Ej. Necesito revisar el tablero eléctrico de un local comercial..."></textarea></label>
+          <div class="field-row">
+            <label class="field"><span>Tipo de espacio</span><select name="siteType" required><option value="">Seleccionar</option><option>Residencial</option><option>Comercial</option><option>Industrial</option><option>Oficina / institucional</option><option>Otro</option></select></label>
+            <label class="field"><span>Urgencia</span><select name="urgency" required><option value="">Seleccionar</option><option>No, puedo coordinar</option><option>Sí, requiere atención pronta</option><option>Es una emergencia</option></select></label>
+          </div>
+        </section>
+
+        <section class="wizard-step" data-step="3">
+          <div class="step-head"><b>03</b><div><h2>¿Dónde se realizará el trabajo?</h2><p>Indica la ubicación general para orientar la coordinación.</p></div></div>
+          <div class="field-row">
+            <label class="field"><span>Ciudad / distrito</span><input type="text" name="district" minlength="2" required placeholder="Ej. Miraflores, Lima"></label>
+            <label class="field"><span>Dirección o referencia (opcional)</span><input type="text" name="address" placeholder="Calle, zona o referencia"></label>
+          </div>
+        </section>
+
+        <section class="wizard-step" data-step="4">
+          <div class="step-head"><b>04</b><div><h2>¿Cómo te contactamos?</h2><p>Deja tus datos para responder y dar seguimiento.</p></div></div>
+          <div class="field-row">
+            <label class="field"><span>Nombre y apellido</span><input type="text" name="name" minlength="2" required placeholder="Tu nombre"></label>
+            <label class="field"><span>Teléfono / WhatsApp</span><input type="text" name="phone" minlength="7" required placeholder="+51 999 999 999"></label>
+          </div>
+          <label class="field"><span>Correo electrónico (opcional)</span><input type="email" name="email" placeholder="nombre@correo.com"></label>
+          <label class="consent"><input type="checkbox" name="consent" required><span>Autorizo el uso de estos datos para responder y coordinar esta solicitud.</span></label>
+        </section>
+
+        <section class="wizard-step" data-step="5">
+          <div class="step-head"><b>05</b><div><h2>Revisa y envía tu solicitud</h2><p>Al enviar, guardaremos la solicitud en Supabase y luego abriremos WhatsApp con el resumen preparado.</p></div></div>
+          <div class="review-table" id="reviewTable"></div>
+          <div class="info-box">La solicitud se registra de forma centralizada en Supabase. Después podrás continuar la coordinación por WhatsApp.</div>
+        </section>
+
+        <div class="error-box" id="wizardError"></div>
+        <div class="wizard-actions">
+          <button type="button" class="btn btn-lite" id="prevBtn" disabled>← Anterior</button>
+          <button type="button" class="btn btn-primary" id="nextBtn">Continuar →</button>
+          <button type="submit" class="btn btn-whatsapp" id="submitBtn" hidden>Enviar solicitud y abrir WhatsApp ↗</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/booking.js"></script>
+</body>
+</html>
